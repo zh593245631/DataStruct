@@ -105,6 +105,34 @@ void sink(vector<int>& v, int k, int n)
      k = j;
   }
 }
+//6. 快速排序
+void _quicksort(vector<int>& v,int left, int right);
+void quicksort(vector<int>& v)
+{
+  _quicksort(v,0,v.size() - 1);
+}
+void _quicksort(vector<int>& v,int left, int right)
+{
+  if(left < right)
+  {
+    int i = left,j = right,x = v[left];
+    while( i < j )
+    {
+      while(i < j && v[j] >= x)
+        --j;
+      if(i < j)
+        v[i++] = v[j];
+      while(i < j && v[i] <= x)
+        ++i;
+      if(i < j)
+        v[j--] = v[i];
+    }
+    v[i] = x;
+    _quicksort(v,left,i - 1);
+    _quicksort(v,i + 1,right);
+  }
+
+}
 void test(Handler handler, vector<int>& v)
 {
   clock_t beg = clock();
@@ -123,7 +151,7 @@ int main()
 {
   srand((unsigned)time(NULL));
 
-  vector<int> v(10000,0);
+  vector<int> v(10,0);
   for(size_t i = 0; i < v.size(); ++i)
   {
     v[i] = rand()%100 + 1;
@@ -153,6 +181,11 @@ int main()
   printf("heapsort : \n");
   test(heapsort,v1);
   //print(v1);
+
+  v1 = v;
+  printf("quicksort : \n");
+  test(quicksort,v1);
+  print(v1);
 
   return 0;
 }
